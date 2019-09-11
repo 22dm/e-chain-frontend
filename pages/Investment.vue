@@ -3,34 +3,28 @@
     <a-layout style="margin: 24px 16px; padding: 24px; background: #fff">
       <a-layout-sider width="200" style="background: #fff">
         <a-menu mode="inline" :default-selected-keys="current_page" style="height: 100%">
-          <a-menu-item key="news">
-            <router-link to="/information/news">
+          <a-menu-item key="build">
+            <router-link to="/investment/build">
               <a-icon type="fire" />
-              <span>重要新闻</span>
+              <span>构建组合</span>
             </router-link>
           </a-menu-item>
-          <a-menu-item key="announcement">
-            <router-link to="/information/announcement">
+          <a-menu-item key="show">
+            <router-link to="/investment/show">
               <a-icon type="notification" />
-              <span>行业公告</span>
+              <span>我的持仓</span>
             </router-link>
           </a-menu-item>
-          <a-menu-item key="economic">
-            <router-link to="/information/economic">
+          <a-menu-item key="history">
+            <router-link to="/investment/history">
             <a-icon type="line-chart" />
-              <span>宏观经济</span>
+              <span>交易历史</span>
             </router-link>
           </a-menu-item>
-          <a-menu-item key="report">
-            <router-link to="/information/report">
+          <a-menu-item key="share">
+            <router-link to="/investment/share">
             <a-icon type="file-search" />
-              <span>研报平台</span>
-            </router-link>
-          </a-menu-item>
-          <a-menu-item key="subscription">
-            <router-link to="/information/subscription">
-              <a-icon type="dollar" />
-              <span>实时商机</span>
+              <span>精选组合</span>
             </router-link>
           </a-menu-item>
         </a-menu>
