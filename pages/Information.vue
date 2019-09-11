@@ -2,7 +2,7 @@
   <a-layout-content style="padding: 0 50px">
     <a-layout style="margin: 24px 16px; padding: 24px; background: #fff">
       <a-layout-sider width="200" style="background: #fff">
-        <a-menu mode="inline" :default-selected-keys="['news']" style="height: 100%">
+        <a-menu mode="inline" :default-selected-keys="current_page" style="height: 100%">
           <a-menu-item key="news">
             <router-link to="/information/news">
               <a-icon type="fire" />
@@ -15,7 +15,7 @@
               <span>行业公告</span>
             </router-link>
           </a-menu-item>
-          <a-menu-item key="policy">
+          <a-menu-item key="economic">
             <router-link to="/information/economic">
             <a-icon type="line-chart" />
               <span>宏观经济</span>
@@ -27,7 +27,7 @@
               <span>研报平台</span>
             </router-link>
           </a-menu-item>
-          <a-menu-item key="business">
+          <a-menu-item key="subscription">
             <router-link to="/information/subscription">
               <a-icon type="dollar" />
               <span>实时商机</span>
@@ -41,4 +41,12 @@
 </template>
 
 <script>
+export default {
+  data() {
+    return {
+      current_page: ['news']
+    };
+  },
+};
+
 </script>
