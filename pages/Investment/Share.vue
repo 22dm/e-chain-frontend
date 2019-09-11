@@ -1,0 +1,56 @@
+<template>
+  <a-layout-content :style="{ padding: '0 50px', minHeight: '280px' }">
+    <h1>精选组合</h1>
+    <router-view />
+    <div v-for="i in 2" :key="i" :style="{ padding: '20px' }">
+      <a-card :title="'组合' + i" bordered="true" :style="{ margin: '50 px'}">
+          <a-table :dataSource="data" :columns="columns" :pagination="false"/>
+          <br>
+          <span><b>20个交易日收益:{{income}}</b></span>
+          <a-button style="float: right" type="primary">一键跟单</a-button>
+      </a-card>
+    </div>
+  </a-layout-content>
+</template>
+
+<style>
+#components-layout-demo-top-side .logo {
+  width: 120px;
+  height: 31px;
+  background: rgba(255,255,255,.2);
+  margin: 16px 28px 16px 0;
+  float: left;
+}
+</style>
+
+<script>
+const columns = [
+  { title: '类型', dataIndex: 'type', key: 'type' },
+  { title: '名称', dataIndex: 'name', key: 'name' },
+  { title: '代码', dataIndex: 'code', key: '1' },
+  { title: '价格', dataIndex: 'price', key: '2' },
+  { title: '交易量', dataIndex: 'quantity', key: '3' },
+];
+
+const data = [];
+for (let i = 0; i < 5; i++) {
+  data.push({
+    type: i,
+    name: `stock ${i}`,
+    code: 10086 + i * 832 - 5,
+    price: 50 + i,
+    quantity: 500 * i,
+  });
+}
+let income = 5000;
+
+export default {
+  data() {
+    return {
+      data,
+      columns,
+      income
+    }
+  }
+}
+</script>
