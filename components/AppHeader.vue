@@ -17,7 +17,7 @@
         <router-link to="/chain">产业链</router-link>
       </a-menu-item>
       <a-menu-item key="investment">
-        <router-link to="/investment">我的投资</router-link>
+        <router-link to="/investment/build">我的投资</router-link>
       </a-menu-item>
     </a-menu>
   </a-layout-header>
