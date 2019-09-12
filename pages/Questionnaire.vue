@@ -112,7 +112,7 @@
             </a-radio-group>
         </div>
         <div class="submitStyle">
-            <a-button type="primary" @click="submit">提交</a-button>
+            <a-button type="primary" @click="submit"><router-link to="/">提交</router-link></a-button>
         </div>
     </div>
 </template>
@@ -191,9 +191,7 @@
                     margin: '3px 20px 0px 25px',
                 }
             }
-
         }
-
     }
 
 </script>
