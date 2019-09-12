@@ -155,6 +155,18 @@ export default {
 
 
   methods: {
+    changetotalPrice() {
+      const dataBlank = [...this.dataBlank];
+      const target = dataBlank[0];
+      const data = [...this.data];
+      let totalPrice = 0
+      for(let i=0;i<data.length;i++) {
+        totalPrice += data[i]['amount'];
+      }
+      console.log(totalPrice);
+      target['totalPrice'] = `总交易额： ${totalPrice}`;
+      this.dataBlank = dataBlank;
+    },
     onCellChange (key, value) {
       const data = [...this.data];
       const target = data.find(item => item.key === key);
@@ -162,7 +174,7 @@ export default {
         target['amount'] = value * target['price'];
         this.data = data;
       }
-      
+      this.changetotalPrice();
     },
     onDelete (key) {
       const data = [...this.data];
