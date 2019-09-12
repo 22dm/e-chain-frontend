@@ -127,9 +127,9 @@ for (let i = 0; i < 5; i++) {
 }
 
 dataBlank.push({
-  stockR: `股票比例：`,
-  fundR: `基金比例：`,
-  totalPrice: `总交易额：`,
+  stockR: `股票比例：0 %`,
+  fundR: `基金比例：0 %`,
+  totalPrice: `总交易额：0`,
   key: 'null',
 })
 
@@ -192,6 +192,7 @@ export default {
       else{
         this.dataFund.push(newData);
       }
+      this.changetotalPrice();
     },
     onAdd (key) {
       let type = '股票';
