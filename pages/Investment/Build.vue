@@ -34,7 +34,10 @@
     </div>
     <a-card title="已选资产" :bordered="true" :style="{ margin: '50 px'}">
       <a-table bordered :dataSource="data" :columns="columns" :pagination="false">
-        <template slot="operation" slot-scope="text, record">
+        <template slot="quantity" slot-scope="text, record">
+          <editable-cell @change="onCellChange(record.key, $event)"/>
+        </template>
+        <template slot="operation" slot-scope="text, record, ">
           <a-popconfirm
             title="Sure to delete?"
             @confirm="() => onDelete(record.key)">
@@ -68,9 +71,6 @@
 </template>
 <script>
 import EditableCell from './EditableCell'
-/*
-* EditableCell Code https://github.com/vueComponent/ant-design-vue/blob/master/components/table/demo/EditableCell.vue
-*/
 
 const columnsAgu = [
   { title: '名称', dataIndex: 'name', key: 'name' },
@@ -91,7 +91,7 @@ const columns = [
   {title: '名称',  dataIndex: 'name', key: 'name'}, 
   {title: '代码', dataIndex: 'code', key: 'code'},
   {title: '价格', dataIndex: 'price', key: 'price'},
-  {title: '交易量', dataIndex: 'quantity', key: 'quantity'},
+  {title: '交易量', dataIndex: 'quantity', key: 'quantity', scopedSlots: { customRender: 'quantity' },},
   {title: '交易额', dataIndex: 'amount', key: 'amount'},
   {title: '操作', dataIndex: 'operation', scopedSlots: { customRender: 'operation' },}
   ];
@@ -133,6 +133,8 @@ dataBlank.push({
   key: 'null',
 })
 
+
+
 export default {
   components: {
     EditableCell,
@@ -150,7 +152,18 @@ export default {
 
     }
   },
+
+
   methods: {
+    onCellChange (key, value) {
+      const data = [...this.data];
+      const target = data.find(item => item.key === key);
+      if (target) {
+        target['amount'] = value * target['price'];
+        this.data = data;
+      }
+      
+    },
     onDelete (key) {
       const data = [...this.data];
       const target = data.find(item => item.key === key);
@@ -192,12 +205,13 @@ export default {
         amount: 0,
       };
       this.data.push(newData);
+      this.onCellChange (key, 100);
     }
   },
 }
 </script>
 <style>
-/* .editable-cell {
+.editable-cell {
   position: relative;
 }
 
@@ -238,5 +252,5 @@ export default {
 
 .editable-add-btn {
   margin-bottom: 8px;
-} */
+}
 </style>
