@@ -3,7 +3,7 @@
     <h1>交易历史</h1>
     <router-view />
     <div v-for="i in 2" :key="i" :style="{ padding: '20px' }">
-      <a-card :title="'组合' + i" bordered="true" :style="{ margin: '50 px'}">
+      <a-card :title="'组合' + i" bordered :style="{ margin: '50 px'}">
           <a-table :dataSource="data" :columns="columns" :pagination="false"/>
           <br>
           <a-button style="display:block;margin:0 auto" type="primary">分享</a-button>
@@ -44,6 +44,7 @@ for (let i = 0; i < 5; i++) {
     price: price,
     quantity: quantity,
     amount: amount,
+    key : `s${i}`
   });
 }
 

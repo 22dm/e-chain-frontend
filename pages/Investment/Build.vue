@@ -4,7 +4,6 @@
     <h1>构建组合</h1>
     <a-divider />
     <router-view/>
-    <!-- <a-button class="editable-add-btn" @click="handleAdd">Add</a-button> -->
     <div style="width: 100%; padding: 0em 3em 0em 5em">
       <div style="padding: 0em 0em 3em 0em;">
         <a-row :gutter="16">
@@ -33,7 +32,7 @@
       </div>
     </div>
     <a-card title="已选资产" :bordered="true" :style="{ margin: '50 px'}">
-      <a-table bordered :dataSource="data" :columns="columns" :pagination="false">
+      <a-table bordered :dataSource="data" :columns="columns" :pagination="false" rowKey="key" >
         <template slot="quantity" slot-scope="text, record">
           <editable-cell @change="onCellChange(record.key, $event)"/>
         </template>
@@ -52,7 +51,7 @@
     </a-card>
     <br>
     <a-card title="A股推荐" :bordered="true" :style="{ margin: '50 px'}">
-      <a-table :dataSource="dataAgu" :columns="columnsAgu" :pagination="false" rowKey="id">
+      <a-table :dataSource="dataAgu" :columns="columnsAgu" :pagination="false" rowKey="key">
         <template slot="operation" slot-scope="text, record">
           <a-button type="primary" @click="() => onAdd(record.key)">加入</a-button>
         </template>
@@ -60,7 +59,7 @@
     </a-card>
     <br>
     <a-card title="基金推荐" :bordered="true" :style="{ margin: '50 px'}">
-      <a-table :dataSource="dataFund" :columns="columnsFund" :pagination="false" rowKey="id">
+      <a-table :dataSource="dataFund" :columns="columnsFund" :pagination="false" rowKey="key">
         <template slot="operation" slot-scope="text, record">
           <a-button type="primary" @click="() => onAdd(record.key)">加入</a-button>
         </template>
@@ -70,7 +69,7 @@
   </a-layout-content>
 </template>
 <script>
-import EditableCell from './EditableCell'
+import EditableCell from './components/EditableCell'
 
 const columnsAgu = [
   { title: '名称', dataIndex: 'name', key: 'name' },
@@ -135,6 +134,7 @@ dataBlank.push({
 
 
 
+
 export default {
   components: {
     EditableCell,
@@ -155,16 +155,22 @@ export default {
 
 
   methods: {
-    changetotalPrice() {
+    changeTotal() {
       const dataBlank = [...this.dataBlank];
       const target = dataBlank[0];
       const data = [...this.data];
-      let totalPrice = 0
+      let totalPrice = 0;
+      let totalStock = 0;
       for(let i=0;i<data.length;i++) {
         totalPrice += data[i]['amount'];
+        if (data[i]['key'].charAt(0) === 's'){
+          totalStock += data[i]['amount'];
+        }
       }
-      console.log(totalPrice);
+
       target['totalPrice'] = `总交易额： ${totalPrice}`;
+      target['stockR'] = `股票比例：${parseInt(100 * totalStock / totalPrice)} %`
+      target['fundR'] = `基金比例：${100 - parseInt(100 * totalStock / totalPrice)} %`
       this.dataBlank = dataBlank;
     },
     onCellChange (key, value) {
@@ -174,7 +180,7 @@ export default {
         target['amount'] = value * target['price'];
         this.data = data;
       }
-      this.changetotalPrice();
+      this.changeTotal();
     },
     onDelete (key) {
       const data = [...this.data];
@@ -192,7 +198,7 @@ export default {
       else{
         this.dataFund.push(newData);
       }
-      this.changetotalPrice();
+      this.changeTotal();
     },
     onAdd (key) {
       let type = '股票';

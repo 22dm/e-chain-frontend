@@ -3,7 +3,7 @@
     <h1>精选组合</h1>
     <router-view />
     <div v-for="i in 2" :key="i" :style="{ padding: '20px' }">
-      <a-card :title="'组合' + i" bordered="true" :style="{ margin: '50 px'}">
+      <a-card :title="'组合' + i" bordered :style="{ margin: '50 px'}">
           <a-table :dataSource="data" :columns="columns" :pagination="false"/>
           <br>
           <span><b>20个交易日收益:{{income}}</b></span>
@@ -40,6 +40,7 @@ for (let i = 0; i < 5; i++) {
     code: 10086 + i * 832 - 5,
     price: 50 + i,
     quantity: 500 * i,
+    key : `s${i}`
   });
 }
 let income = 5000;

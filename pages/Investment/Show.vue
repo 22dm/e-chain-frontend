@@ -3,7 +3,7 @@
     <router-view />
     <h1>我的持仓</h1>
     <div v-for="i in 2" :key="i" :style="{ padding: '20px' }">
-      <a-card :title="'组合' + i" bordered="true" :style="{ margin: '50 px'}">
+      <a-card :title="'组合' + i" bordered :style="{ margin: '50 px'}">
           <a-table :dataSource="data" :columns="columns" :pagination="false"/>
           <br>
           <a-table :showHeader="false" :columns="columns0" :dataSource="data0" :pagination="false" bordered/>
@@ -43,6 +43,7 @@ for (let i = 0; i < 5; i++) {
     price: 50 + i,
     quantity: 500 * i,
     priceNow: 50 + 2 * i,
+    key : `s${i}`
   });
 }
 
@@ -58,6 +59,7 @@ const data0 = [{
   Fprice: "初始金额：",
   Nprice: "当前金额：",
   amount: "累计收益：",
+  key: "null"
 }];
 
 export default {
