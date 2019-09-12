@@ -2,25 +2,15 @@
   <a-layout-content :style="{ padding: '0 50px', minHeight: '280px' }">
     <h1>交易历史</h1>
     <router-view />
-    <div v-for="i in 2" :key="i" :style="{ padding: '20px' }">
-      <a-card :title="'组合' + i" bordered :style="{ margin: '50 px'}">
-          <a-table :dataSource="data" :columns="columns" :pagination="false"/>
+    <div v-for="(item, index) in historyList" :key="index" :style="{ padding: '20px' }">
+      <a-card :title="'组合 ' + index" bordered :style="{ margin: '50 px'}">
+          <a-table :dataSource="item" :columns="columns" :pagination="false" rowKey="id"/>
           <br>
           <a-button style="display:block;margin:0 auto" type="primary">分享</a-button>
       </a-card>
     </div>
   </a-layout-content>
 </template>
-
-<style>
-#components-layout-demo-top-side .logo {
-  width: 120px;
-  height: 31px;
-  background: rgba(255,255,255,.2);
-  margin: 16px 28px 16px 0;
-  float: left;
-}
-</style>
 
 <script>
 const columns = [
@@ -32,26 +22,48 @@ const columns = [
   { title: '交易额', dataIndex: 'amount', key: 'amount' },
 ];
 
-const data = [];
+// 下面列出两条假数据作为参考，后端获取的数据传到前端，请参考以下格式
+const historyList = [];
+const historyItem0 = [];
 for (let i = 0; i < 5; i++) {
+  let type = (i%3 === 0)? '股票':'基金';
   let price = 20 + 11*i;
   let quantity = 500 * (5-i);
   let amount = quantity * price;
-  data.push({
-    type: i,
-    name: `stock ${i}`,
+  historyItem0.push({
+    type: type,
+    name: `${type} ${i}`,
     code: 10086 + i * 832 - 5,
     price: price,
     quantity: quantity,
     amount: amount,
-    key : `s${i}`
+    id : `${i}`
+  });
+}
+historyList.push(historyItem0);
+const historyItem1 = [];
+for (let i = 0; i < 5; i++) {
+  let type = (i%3-1 === 0)? '股票':'基金';
+  let price = 13 + 7*i;
+  let quantity = 400 * (5-i);
+  let amount = quantity * price;
+  historyItem1.push({
+    type: type,
+    name: `${type} ${i}`,
+    code: 27148 + i * 221 - 4,
+    price: price,
+    quantity: quantity,
+    amount: amount,
+    id : `${i}`
   });
 }
 
+
+historyList.push(historyItem1);
 export default {
   data() {
     return {
-      data,
+      historyList,
       columns,
     }
   }

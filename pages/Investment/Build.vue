@@ -17,7 +17,7 @@
               <a-row :gutter="16">
                 <a-col :span="12">
                   <a-card title="股票" :bordered="false">
-                    <p>10%</p>
+                    <p>70%</p>
                   </a-card>
                 </a-col>
                 <a-col :span="12">
@@ -107,6 +107,7 @@ let dataFund = [];
 let data = [];
 let dataBlank = [];
 
+// 这里填入股票的数据
 for (let i = 0; i < 5; i++) {
   dataAgu.push({
     name: `stock ${i}`, 
@@ -116,6 +117,7 @@ for (let i = 0; i < 5; i++) {
   });
 }
 
+//这里填入基金的数据
 for (let i = 0; i < 5; i++) {
   dataFund.push({
     name: `fund ${i}`,
@@ -169,8 +171,9 @@ export default {
       }
 
       target['totalPrice'] = `总交易额： ${totalPrice}`;
-      target['stockR'] = `股票比例：${parseInt(100 * totalStock / totalPrice)} %`
-      target['fundR'] = `基金比例：${100 - parseInt(100 * totalStock / totalPrice)} %`
+      const stockR = totalPrice===0?0:parseInt(100 * totalStock / totalPrice);
+      target['stockR'] = `股票比例：${stockR} %`
+      target['fundR'] = `基金比例：${totalPrice===0?0:100-stockR} %`
       this.dataBlank = dataBlank;
     },
     onCellChange (key, value) {
@@ -229,47 +232,3 @@ export default {
   },
 }
 </script>
-<style>
-.editable-cell {
-  position: relative;
-}
-
-.editable-cell-input-wrapper,
-.editable-cell-text-wrapper {
-  padding-right: 24px;
-}
-
-.editable-cell-text-wrapper {
-  padding: 5px 24px 5px 5px;
-}
-
-.editable-cell-icon,
-.editable-cell-icon-check {
-  position: absolute;
-  right: 0;
-  width: 20px;
-  cursor: pointer;
-}
-
-.editable-cell-icon {
-  line-height: 18px;
-  display: none;
-}
-
-.editable-cell-icon-check {
-  line-height: 28px;
-}
-
-.editable-cell:hover .editable-cell-icon {
-  display: inline-block;
-}
-
-.editable-cell-icon:hover,
-.editable-cell-icon-check:hover {
-  color: #108ee9;
-}
-
-.editable-add-btn {
-  margin-bottom: 8px;
-}
-</style>
