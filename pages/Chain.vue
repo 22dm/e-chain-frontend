@@ -165,10 +165,6 @@ export default {
 }
 
 /* z-index:1 */
-svg {
-  position: absolute;
-  z-index: 1;
-}
 canvas {
   position: absolute;
   z-index: 1;
