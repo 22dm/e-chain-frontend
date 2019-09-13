@@ -35,7 +35,8 @@
     "vue": "latest",
     "vue-meta": "latest",
     "vuetify": "^0.17.5",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "jsmind": "0.4.6"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.5.5",
