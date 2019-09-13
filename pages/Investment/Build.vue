@@ -50,8 +50,8 @@
       <a-button type="primary" style="display:block;margin:0 auto" @click="onBuy()">买入</a-button>
     </a-card>
     <br>
-    <a-card title="A股推荐" :bordered="true" :style="{ margin: '50 px'}">
-      <a-table :dataSource="dataAgu" :columns="columnsAgu" :pagination="false" rowKey="key">
+    <a-card title="A股推荐" :bordered="true" :style="{ margin: '50 px'} " >
+      <a-table :dataSource="dataAgu" :columns="columnsAgu" :pagination="false" rowKey="key" :scroll="{ y: 400 }">
         <template slot="operation" slot-scope="text, record">
           <a-button type="primary" @click="onAdd(record.key)">加入</a-button>
         </template>
@@ -59,7 +59,7 @@
     </a-card>
     <br>
     <a-card title="基金推荐" :bordered="true" :style="{ margin: '50 px'}">
-      <a-table :dataSource="dataFund" :columns="columnsFund" :pagination="false" rowKey="key">
+      <a-table :dataSource="dataFund" :columns="columnsFund" :pagination="false" rowKey="key" :scroll="{ y: 400 }">
         <template slot="operation" slot-scope="text, record">
           <a-button type="primary" @click="onAdd(record.key)">加入</a-button>
         </template>
@@ -72,17 +72,17 @@
 import EditableCell from './components/EditableCell'
 
 const columnsAgu = [
-  { title: '名称', dataIndex: 'name', key: 'name' },
-  { title: '代码', dataIndex: 'code', key: 'code' },
-  { title: '价格', dataIndex: 'price', key: 'price' },
-  { title: '操作', dataIndex: 'operation', key: 'operation', scopedSlots: { customRender: 'operation' },}
+  { title: '名称', dataIndex: 'name', key: 'name' , width: 100},
+  { title: '代码', dataIndex: 'code', key: 'code' , width: 100},
+  { title: '价格', dataIndex: 'price', key: 'price' , width: 100},
+  { title: '操作', dataIndex: 'operation', key: 'operation', scopedSlots: { customRender: 'operation' }, width: 100}
 ];
 
 const columnsFund = [
-  { title: '名称', dataIndex: 'name', key: 'name' },
-  { title: '代码', dataIndex: 'code', key: 'code' },
-  { title: '价格', dataIndex: 'price', key: 'price' },
-  { title: '操作', dataIndex: 'operation', key: 'operation', scopedSlots: { customRender: 'operation' },}
+  { title: '名称', dataIndex: 'name', key: 'name' , width: 100},
+  { title: '代码', dataIndex: 'code', key: 'code' , width: 100},
+  { title: '价格', dataIndex: 'price', key: 'price' , width: 100},
+  { title: '操作', dataIndex: 'operation', key: 'operation', scopedSlots: { customRender: 'operation' }, width: 100}
 ];
 
 const columns = [
@@ -108,7 +108,7 @@ let data = [];
 let dataBlank = [];
 
 // 这里填入股票的数据
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 15; i++) {
   dataAgu.push({
     name: `stock ${i}`, 
     code: 10086 + i * 832 - 5,

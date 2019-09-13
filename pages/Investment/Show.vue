@@ -3,7 +3,7 @@
     <router-view />
     <h1>我的持仓</h1>
     <div v-for="(item, index) in showList" :key="index" :style="{ padding: '20px' }">
-      <a-card :title="'组合 ' + index" bordered :style="{ margin: '50 px'}">
+      <a-card :title="'组合-' + index" bordered :style="{ margin: '50 px'}">
           <a-table :dataSource="item['showItem']" :columns="columns" :pagination="false" rowKey="id"/>
           <br>
           <a-table :showHeader="false" :columns="columns0" :dataSource="item['sumItem']" :pagination="false" rowKey="id" bordered/>
@@ -66,6 +66,7 @@ showList.push({
             income : `累计收益： ${Nprice - Fprice}`,
             id: 0,
           }],
+  id: 0,
 });
 Fprice = 0;
 Nprice = 0;
@@ -100,6 +101,7 @@ showList.push({
             income : `累计收益： ${Nprice - Fprice}`,
             id: 1,
             }],
+  id: 1,
 });
 
 export default {

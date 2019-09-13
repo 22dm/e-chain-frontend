@@ -3,7 +3,7 @@
     <h1>精选组合</h1>
     <router-view />
     <div v-for="(item,index) in shareList" :key="index" :style="{ padding: '20px' }">
-      <a-card :title="'组合 ' + index" bordered :style="{ margin: '50 px'}">
+      <a-card :title="'组合-' + index" bordered :style="{ margin: '50 px'}">
           <a-table :dataSource="item['shareItem']" :columns="columns" :pagination="false" rowKey="id"/>
           <br>
           <span><b>20个交易日收益: {{item['income']}}</b></span>
