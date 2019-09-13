@@ -39,7 +39,7 @@
         <template slot="operation" slot-scope="text, record, ">
           <a-popconfirm
             title="Sure to delete?"
-            @confirm="() => onDelete(record.key)">
+            @confirm="onDelete(record.key)">
             <a-button type="danger">移除</a-button>
           </a-popconfirm>
         </template>
@@ -47,13 +47,13 @@
       <br>
       <a-table :showHeader="false" :columns="columnsBlank" :dataSource="dataBlank" :pagination="false" bordered/>
       <br>
-      <a-button type="primary" style="display:block;margin:0 auto">买入</a-button>
+      <a-button type="primary" style="display:block;margin:0 auto" @click="onBuy()">买入</a-button>
     </a-card>
     <br>
     <a-card title="A股推荐" :bordered="true" :style="{ margin: '50 px'}">
       <a-table :dataSource="dataAgu" :columns="columnsAgu" :pagination="false" rowKey="key">
         <template slot="operation" slot-scope="text, record">
-          <a-button type="primary" @click="() => onAdd(record.key)">加入</a-button>
+          <a-button type="primary" @click="onAdd(record.key)">加入</a-button>
         </template>
       </a-table>
     </a-card>
@@ -61,7 +61,7 @@
     <a-card title="基金推荐" :bordered="true" :style="{ margin: '50 px'}">
       <a-table :dataSource="dataFund" :columns="columnsFund" :pagination="false" rowKey="key">
         <template slot="operation" slot-scope="text, record">
-          <a-button type="primary" @click="() => onAdd(record.key)">加入</a-button>
+          <a-button type="primary" @click="onAdd(record.key)">加入</a-button>
         </template>
       </a-table>
     </a-card>
@@ -230,5 +230,9 @@ export default {
       this.onCellChange (key, 100);
     }
   },
+  // 这里是按下买入之后要执行的操作。
+  onBuy () {
+
+  }
 }
 </script>
