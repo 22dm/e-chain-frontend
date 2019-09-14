@@ -8,36 +8,36 @@ import axios from 'axios'
 
 
 // axios默认配置
-axios.defaults.timeout = 5000;   // 超时时间
-axios.defaults.baseURL = 'http://localhost:3000/';  // 默认地址
+axios.defaults.timeout = 5000; // 超时时间
+axios.defaults.baseURL = 'http://172.19.180.255:3000/'; // 默认地址
 
 //整理数据
-axios.defaults.transformRequest = function (data) {
-  data = JSON.stringify(data);
-  return data;
+axios.defaults.transformRequest = function(data) {
+    data = JSON.stringify(data);
+    return data;
 };
 
 // 路由请求拦截
 // http request 拦截器
 axios.interceptors.request.use(
-  config => {
-    //config.data = JSON.stringify(config.data);
-    config.headers['Content-Type'] = 'application/json;charset=UTF-8';
-    // if (cookie.get("token")) {
-    //   //用户每次操作，都将cookie设置成2小时
-    //   cookie.set("token",cookie.get("token") ,1/12);
-    //   cookie.set("name",cookie.get("name") ,1/12);
-    //   config.headers.token = cookie.get("token");
-    //   config.headers.name= cookie.get("name");
+    config => {
+        //config.data = JSON.stringify(config.data);
+        config.headers['Content-Type'] = 'application/json;charset=UTF-8';
+        // if (cookie.get("token")) {
+        //   //用户每次操作，都将cookie设置成2小时
+        //   cookie.set("token",cookie.get("token") ,1/12);
+        //   cookie.set("name",cookie.get("name") ,1/12);
+        //   config.headers.token = cookie.get("token");
+        //   config.headers.name= cookie.get("name");
 
-    if (localStorage.Authorization) {
-      config.headers.Authorization = 'Bearer ' + localStorage.token
-    }
-    return config;
-  },
-  error => {
-    return Promise.reject(error.response);
-  });
+        if (localStorage.Authorization) {
+            config.headers.Authorization = 'Bearer ' + localStorage.token
+        }
+        return config;
+    },
+    error => {
+        return Promise.reject(error.response);
+    });
 
 // 路由响应拦截
 // http response 拦截器
@@ -71,16 +71,16 @@ const http = {
      * @param  {接口地址} url
      * @param  {请求参数} params
      */
-    get: function(url,params){
-        return new Promise((resolve,reject) => {
-            axios.get(url,{
-                params:params
-            })
+    get: function(url, params) {
+        return new Promise((resolve, reject) => {
+            axios.get(url, {
+                    params: params
+                })
                 .then((response) => {
-                    resolve( response.data );
+                    resolve(response.data);
                 })
                 .catch((error) => {
-                    reject( error );
+                    reject(error);
                 });
         })
     },
@@ -88,14 +88,14 @@ const http = {
      * @param  {接口地址} url
      * @param  {请求参数} params
      */
-    post: function(url,params){
-        return new Promise((resolve,reject) => {
-            axios.post(url,params)
+    post: function(url, params) {
+        return new Promise((resolve, reject) => {
+            axios.post(url, params)
                 .then((response) => {
-                    resolve( response.data );
+                    resolve(response.data);
                 })
                 .catch((error) => {
-                    reject( error );
+                    reject(error);
                 });
         })
     }

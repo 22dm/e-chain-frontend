@@ -2,8 +2,8 @@
   <a-layout-content style="padding: 0 50px">
     <a-layout style="margin: 24px 16px; padding: 24px; background: #fff">
       <div>
-        {{currentStockInfo.stockName}}
-        {{currentStockInfo.stockCode}}
+        <span>{{currentStockInfo.stockName}}</span>
+        <span>{{currentStockInfo.stockCode}}</span>
         <div style="float:right;">
           <a-select style="width: 120px" v-bind:defaultValue="0" @change="handleSelectChange">
             <a-select-option
@@ -13,13 +13,18 @@
             >{{item.stockName}}</a-select-option>
           </a-select>
           <router-link to="/chain">
-          <a-button type="primary" style="width: 100px">回到产业链</a-button>
+            <a-button type="primary" style="width: 100px">回到产业链</a-button>
           </router-link>
         </div>
       </div>
       <a-divider />
       <a-card title="行情数据" style="margin:5px;">
-        <ve-line :data="currentStockInfo.chartData" :settings="chartSettings"></ve-line>
+        <a-radio-group v-model="radioValue">
+          <a-radio-button value="day">日线</a-radio-button>
+          <a-radio-button value="week">周线</a-radio-button>
+          <a-radio-button value="month">月线</a-radio-button>
+        </a-radio-group>
+        <ve-line :data="getChartData" :settings="chartSettings"></ve-line>
       </a-card>
 
       <a-table
@@ -289,20 +294,35 @@ export default {
       currentStockInfo: {
         stockName: "股票A",
         stockCode: "001",
-        chartData:  {
-          columns: ['日期', '访问用户', '下单用户', '下单率'],
-          rows: [
-            { '日期': '1/1', '访问用户': 1393, '下单用户': 1093, '下单率': 0.32 },
-            { '日期': '1/2', '访问用户': 3530, '下单用户': 3230, '下单率': 0.26 },
-            { '日期': '1/3', '访问用户': 2923, '下单用户': 2623, '下单率': 0.76 },
-            { '日期': '1/4', '访问用户': 1723, '下单用户': 1423, '下单率': 0.49 },
-            { '日期': '1/5', '访问用户': 3792, '下单用户': 3492, '下单率': 0.323 },
-            { '日期': '1/6', '访问用户': 4593, '下单用户': 4293, '下单率': 0.78 }
+        chartData: {
+          day: [
+            { 日期: "1/1", 访问用户: 1393, 下单用户: 1093, 下单率: 0.32 },
+            { 日期: "1/2", 访问用户: 3530, 下单用户: 3230, 下单率: 0.26 },
+            { 日期: "1/3", 访问用户: 2923, 下单用户: 2623, 下单率: 0.76 },
+            { 日期: "1/4", 访问用户: 1723, 下单用户: 1423, 下单率: 0.49 },
+            { 日期: "1/5", 访问用户: 3792, 下单用户: 3492, 下单率: 0.323 },
+            { 日期: "1/6", 访问用户: 4593, 下单用户: 4293, 下单率: 0.78 }
+          ],
+          week: [
+            { 日期: "1/1", 访问用户: 4552, 下单用户: 1093, 下单率: 0.32 },
+            { 日期: "1/2", 访问用户: 3530, 下单用户: 3230, 下单率: 0.26 },
+            { 日期: "1/3", 访问用户: 2923, 下单用户: 2623, 下单率: 0.76 },
+            { 日期: "1/4", 访问用户: 1723, 下单用户: 1423, 下单率: 0.49 },
+            { 日期: "1/5", 访问用户: 3792, 下单用户: 3492, 下单率: 0.323 },
+            { 日期: "1/6", 访问用户: 4593, 下单用户: 4293, 下单率: 0.78 }
+          ],
+          month: [
+            { 日期: "1/1", 访问用户: 9898, 下单用户: 1093, 下单率: 0.32 },
+            { 日期: "1/2", 访问用户: 3530, 下单用户: 3230, 下单率: 0.26 },
+            { 日期: "1/3", 访问用户: 2923, 下单用户: 2623, 下单率: 0.76 },
+            { 日期: "1/4", 访问用户: 1723, 下单用户: 1423, 下单率: 0.49 },
+            { 日期: "1/5", 访问用户: 3792, 下单用户: 3492, 下单率: 0.323 },
+            { 日期: "1/6", 访问用户: 4593, 下单用户: 4293, 下单率: 0.78 }
           ]
         },
         mainBusiness: [
           {
-            businessName: "手机",
+            name: "手机",
             income: 100
           }
         ],
@@ -329,7 +349,7 @@ export default {
       mainBusinessColumns: [
         {
           title: "业务",
-          dataIndex: "businessName"
+          dataIndex: "name"
         },
         {
           title: "收入",
@@ -375,32 +395,83 @@ export default {
           highest: "最高",
           Volume: "成交"
         }
-      }
+      },
+      radioValue: "day"
     };
   },
   mounted() {
-    this.getStockInfo(this.getStockList[0].stockCode)
+    this.getStockInfo(this.getStockList[0].stockCode);
+    this.currentStockInfo.stockName=this.getStockList[0].stockName;
   },
   methods: {
     handleSelectChange(value) {
-      var stockCode=this.getStockList[value].stockCode;
-      getStockInfo(stockCode);
+      var stockCode = this.getStockList[value].stockCode;
+      this.currentStockInfo.stockName=this.getStockList[value].stockName;
+      this.getStockInfo(stockCode);
     },
-    getStockInfo(stockCode){
-      this.$axios.get("/api/tag/delete", stockCode).then(res => {
+    getStockInfo(stockCode) {
+      this.radioValue="day";
+      this.$axios.get("/api/pub/getStockInfo", {code:stockCode}).then(res => {
         let data = res.data;
-        if (data === true) {
-          this.$message.success("删除成功");
-          this.tags.splice(index, 1);
-        } else {
-          this.$message.error("删除失败");
-        }
+        this.currentStockInfo.stockCode=data.code;
+        this.currentStockInfo.chartData.day=data.day;
+        this.currentStockInfo.chartData.week=data.week;
+        this.currentStockInfo.chartData.month=data.month;
+        this.currentStockInfo.mainBusiness=data.main;
+        var arr=data.basic;
+        this.currentStockInfo.basicIndex.totalMarketValue=arr[0];
+        this.currentStockInfo.basicIndex.circulatedMarketValue=arr[1];
+        this.currentStockInfo.basicIndex.totalCapitalStock=arr[2];
+        this.currentStockInfo.basicIndex.circulatedCapitalStock=arr[3];
+        this.currentStockInfo.basicIndex.turnoverRate=arr[4];
+        this.currentStockInfo.basicIndex.per=arr[5];
+        this.currentStockInfo.basicIndex.pbr=arr[6];
+        this.currentStockInfo.basicIndex.psr=arr[7];
+        this.currentStockInfo.basicIndex.totalCapitalTurnoverRate=arr[8];
+        this.currentStockInfo.basicIndex.annualizedReturnOnNetAssets=arr[9];
+        this.currentStockInfo.performanceForecast.type=arr[10];
+        this.currentStockInfo.performanceForecast.lowerMarginOfNetProfitChange=arr[11];
+        this.currentStockInfo.performanceForecast.upperMarginOfNetProfitChange=arr[12];
+        this.currentStockInfo.performanceForecast.netProfitFloor=arr[13];
+        this.currentStockInfo.performanceForecast.netProfitCap=arr[14];
       });
+    },
+    handleTime(data){
+      if(data[0].time.length==10)return data;
+      for(var i=0;i<data.length;i++){
+        var time=data[i].time;
+        var year=time.substring(0,4);
+        var month=time.substring(4,6);
+        var day=time.substring(6,8);
+        data[i].time=year+"/"+month+"/"+day;
+      }
+      return data;
     }
   },
   computed: {
     getStockList() {
       return this.stockLists[this.$route.params.type - 1];
+    },
+    getChartData() {
+      var rows;
+      // var columns = ["日期", "访问用户", "下单用户", "下单率"];
+      var columns=["time", "value"];
+      switch (this.radioValue) {
+        case "day":
+          rows = this.currentStockInfo.chartData.day;
+          break;
+        case "week":
+          rows = this.currentStockInfo.chartData.week;
+          break;
+        case "month":
+          rows = this.currentStockInfo.chartData.month;
+          break;
+      }
+      return {
+        columns:columns,
+        rows:this.handleTime(rows),
+        // rows:rows
+      }
     },
     getBasicIndex() {
       return [
@@ -466,4 +537,7 @@ export default {
 };
 </script>
 <style scoped>
+span{
+  font-size:20px;
+}
 </style>
