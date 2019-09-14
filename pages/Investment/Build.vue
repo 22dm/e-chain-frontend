@@ -68,6 +68,7 @@
   </div>
   </a-layout-content>
 </template>
+
 <script>
 import EditableCell from './components/EditableCell'
 
@@ -106,6 +107,14 @@ let dataAgu = [];
 let dataFund = [];
 let data = [];
 let dataBlank = [];
+
+this.$axios.get("/api/pub/itemGetRecommend")
+  .then((res) => {
+    console.log(res);
+  })
+  .catch(function (err) {
+    console.log(err);
+  });
 
 // 这里填入股票的数据
 for (let i = 0; i < 15; i++) {
