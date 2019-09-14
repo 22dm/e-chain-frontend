@@ -87,16 +87,6 @@ export default {
                 { id: "销售渠道3", topic: "销售渠道" },
                 { id: "技术服务3", topic: "技术服务" }
               ]
-            },
-            {
-              id: "半导体产品安装劳务",
-              topic: "半导体产品安装劳务",
-              direction: "right"
-            },
-            {
-              id: "电子设备与元器件经销",
-              topic: "电子设备与元器件经销",
-              direction: "right"
             }
           ]
         }
@@ -108,13 +98,12 @@ export default {
       };
 
       var urls = {
-        半导体设备: "/companyInfo/1",
-        半导体生产原料: "/companyInfo/1",
-        通信设备: "/companyInfo/1",
-        PC: "/companyInfo/1",
-        消费电子: "/companyInfo/1",
-        半导体产品安装劳务: "/companyInfo/1",
-        电子设备与元器件经销: "/companyInfo/1"
+        半导体设备: "/companyDetails/1",
+        半导体生产原料: "/companyDetails/2",
+        半导体产品: "/companyDetails/3",
+        通信设备: "/companyDetails/4",
+        PC: "/companyDetails/5",
+        消费电子: "/companyDetails/6",
       };
 
       var jm = jsMind.show(options, mind);
