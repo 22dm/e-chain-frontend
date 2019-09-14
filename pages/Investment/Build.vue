@@ -51,7 +51,7 @@
     </a-card>
     <br>
     <a-card title="A股推荐" :bordered="true" :style="{ margin: '50 px'} " >
-      <a-table :dataSource="dataAgu" :columns="columnsAgu" :pagination="false" rowKey="key" :scroll="{ y: 400 }">
+      <a-table :dataSource="dataStock" :columns="columnsStock" :pagination="false" rowKey="key" :scroll="{ y: 400 }">
         <template slot="operation" slot-scope="text, record">
           <a-button type="primary" @click="onAdd(record.key)">加入</a-button>
         </template>
@@ -72,7 +72,7 @@
 <script>
 import EditableCell from './components/EditableCell'
 
-const columnsAgu = [
+const columnsStock = [
   { title: '名称', dataIndex: 'name', key: 'name' , width: 100},
   { title: '代码', dataIndex: 'code', key: 'code' , width: 100},
   { title: '价格', dataIndex: 'price', key: 'price' , width: 100},
@@ -103,38 +103,11 @@ const columnsBlank = [
 ]
 
 
-let dataAgu = [];
+let dataStock = [];
 let dataFund = [];
 let data = [];
 let dataBlank = [];
 
-this.$axios.get("/api/pub/itemGetRecommend")
-  .then((res) => {
-    console.log(res);
-  })
-  .catch(function (err) {
-    console.log(err);
-  });
-
-// 这里填入股票的数据
-for (let i = 0; i < 15; i++) {
-  dataAgu.push({
-    name: `stock ${i}`, 
-    code: 10086 + i * 832 - 5,
-    price: 50 + i,
-    key: `s${i}`,
-  });
-}
-
-//这里填入基金的数据
-for (let i = 0; i < 5; i++) {
-  dataFund.push({
-    name: `fund ${i}`,
-    code: 20085 + i * 832 - 5,
-    price: 50 + i,
-    key: `f${i}`,
-  });
-}
 
 dataBlank.push({
   stockR: `股票比例：0 %`,
@@ -153,19 +126,51 @@ export default {
   data () {
     return {
       columns,
-      columnsAgu,
+      columnsStock,
       columnsFund,
       columnsBlank,
       data,
-      dataAgu,
+      dataStock,
       dataFund,
       dataBlank,
 
     }
   },
-
-
+  mounted() {
+    this.getPage();
+  },
   methods: {
+    getPage() {
+      // 获取后端数据item数据
+      this.$axios.get("/api/pub/itemGetRecommend") 
+      .then((res) => {
+        console.log(res);
+        console.log(res.data.stock.length);
+        const dataFund = res.data.fund;
+        const dataStock = res.data.stock;
+        for (let i = 0; i < res.data.stock.length; i++) {
+          this.dataStock.push({
+            name: dataStock[i]['name'], 
+            code: dataStock[i]['code'],
+            price: dataStock[i]['price'],
+            key: `s${i}`,
+          });
+        }
+        for (let i = 0; i < res.data.fund.length; i++) {
+          this.dataFund.push({
+            name: dataFund[i]['name'], 
+            code: dataFund[i]['code'],
+            price: dataFund[i]['price'],
+            key: `f${i}`,
+          });
+        }
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+
+
+    },
     changeTotal() {
       const dataBlank = [...this.dataBlank];
       const target = dataBlank[0];
@@ -205,7 +210,7 @@ export default {
         price: target.price,
       };
       if (key.charAt(0) === 's') {
-        this.dataAgu.push(newData);
+        this.dataStock.push(newData);
       }
       else{
         this.dataFund.push(newData);
@@ -222,9 +227,9 @@ export default {
         this.dataFund = dataFund.filter(item => item.key !== key);
       }
       else{
-        const dataAgu = [...this.dataAgu];
-        target = dataAgu.find(item => item.key === key);
-        this.dataAgu = dataAgu.filter(item => item.key !== key);
+        const dataStock = [...this.dataStock];
+        target = dataStock.find(item => item.key === key);
+        this.dataStock = dataStock.filter(item => item.key !== key);
       }
       const newData = {
         key: key,
@@ -237,11 +242,25 @@ export default {
       };
       this.data.push(newData);
       this.onCellChange (key, 100);
-    }
+    },
+    onBuy () {
+    this.$axios.post('/api/pub/buy', {
+    item: [{
+      name: "农民",
+      price: 0.5,
+      amount: 1000}
+    ],
+    id: "16"
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   },
-  // 这里是按下买入之后要执行的操作。
-  onBuy () {
+},
 
-  }
+
 }
 </script>
