@@ -112,7 +112,7 @@
             </a-radio-group>
         </div>
         <div class="submitStyle">
-            <a-button type="primary" @click="submit"><router-link to="/">提交</router-link></a-button>
+            <a-button type="primary" @click="submit">提交</a-button>
         </div>
     </div>
 </template>
@@ -120,7 +120,7 @@
 <script>
     // import question from '@/components/question'
 
-    const values=[1,1,1,1,1,1,1,1,1,1]
+    let values=[1,1,1,1,1,1,1,1,1,1];
 
     export default {
         name: "Questionnaire",
@@ -161,15 +161,16 @@
                 values[7]=e.target.value
             },
             onChange9(e){
-                console.log('radio checked', e.target.value)
-                values[8]=e.target.value
+                console.log('radio checked', e.target.value);
+                values[8]=e.target.value;
             },
             onChange10(e){
-                console.log('radio checked', e.target.value)
-                values[9]=e.target.value
+                console.log('radio checked', e.target.value);
+                values[9]=e.target.value;
             },
             submit(){
-                console.log(values)
+                console.log(values);
+                window.location.href='/';
             }
         },
         data(){
