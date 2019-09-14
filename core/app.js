@@ -13,13 +13,13 @@ import VueRouter from 'vue-router';
 
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
-import VeCandle from 'v-charts/lib/candle.common'
+import VeLine from 'v-charts/lib/line.common'
 const F2 = require('@antv/f2');
 
 Vue.use(Meta);
 Vue.use(Antd);
 Vue.use(VueRouter);
-Vue.component(VeCandle.name, VeCandle);
+Vue.component(VeLine.name, VeLine)
 Vue.prototype.$F2 = F2;
 
 Vue.config.productionTip = false;
