@@ -9,7 +9,7 @@ import axios from 'axios'
 
 // axios默认配置
 axios.defaults.timeout = 5000; // 超时时间
-axios.defaults.baseURL = 'http://172.19.180.255:3000/'; // 默认地址
+axios.defaults.baseURL = 'http://172.19.153.127:3000/'; // 默认地址
 
 //整理数据
 axios.defaults.transformRequest = function(data) {
