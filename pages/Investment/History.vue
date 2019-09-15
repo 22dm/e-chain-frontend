@@ -7,19 +7,19 @@
         <template class="ant-card-actions" slot="title">
         <a-row type="flex" justify="center" align="top">
           <a-col :span="2">
-            <h4>组合-{{item.name}}</h4>
+            <h4>组合-{{item.data.name}}</h4>
           </a-col>
           <a-col :span="2">
-            <a-tag :color="item.tag==='卖出'?'blue':'green'">{{item.tag}}</a-tag>
+            <a-tag :color="item.data.tag==='卖出'?'blue':'green'">{{item.data.tag}}</a-tag>
           </a-col>
           <a-col :span="20">
-            <p style="color: grey; font-size: 90%">{{item.time}}</p>
+            <p style="color: grey; font-size: 90%">{{item.data.time}}</p>
           </a-col>
         </a-row>
         </template>
-          <a-table :dataSource="item['historyItem']" :columns="columns" :pagination="false" rowKey="id"/>
+          <a-table :dataSource="item['historyItem']" :columns="columns" :pagination="false" rowKey="code"/>
           <br>
-          <a-button style="display:block;margin:0 auto" type="primary" @click="onShare(item)">分享</a-button>
+          <a-button style="display:block;margin:0 auto" type="primary" @click="onShare(item.data.name)">分享</a-button>
       </a-card>
     </div>
   </a-layout-content>
@@ -35,55 +35,7 @@ const columns = [
   { title: '交易额', dataIndex: 'amount', key: 'amount' },
 ];
 
-// 下面列出两条假数据作为参考，后端获取的数据传到前端，请参考以下格式
-const historyList = [];
-// let historyItem = [];
-
-// for (let i = 0; i < 5; i++) {
-//   let type = (i%3 === 0)? '股票':'基金';
-//   let price = 20 + 11*i;
-//   let quantity = 500 * (5-i);
-//   let amount = quantity * price;
-//   historyItem.push({
-//     type: type,
-//     name: `${type} ${i}`,
-//     code: 10086 + i * 832 - 5,
-//     price: price,
-//     quantity: quantity,
-//     amount: amount,
-//     id : `${i}`
-//   });
-// }
-// historyList.push({
-//   historyItem: historyItem,
-//   id: 0,
-//   type: "买入",
-//   time: "2019-9-10",
-// });
-
-// historyItem = [];
-// for (let i = 0; i < 5; i++) {
-//   let type = (i%3-1 === 0)? '股票':'基金';
-//   let price = 13 + 7*i;
-//   let quantity = 400 * (5-i);
-//   let amount = quantity * price;
-//   historyItem.push({
-//     type: type,
-//     name: `${type} ${i}`,
-//     code: 27148 + i * 221 - 4,
-//     price: price,
-//     quantity: quantity,
-//     amount: amount,
-//     id : `${i}`
-//   });
-// }
-
-// historyList.push({
-//   historyItem: historyItem,
-//   id: 1,
-//   type: "卖出",
-//   time: "2019-8-22",
-// });
+let historyList = [];
 
 export default {
   data() {
@@ -104,8 +56,7 @@ export default {
         }
       })
       .then((res) => {
-        console.log(res);
-
+        this.historyList = [];
         const data = res.data;
         for(let i=0;i<data.length;i++){
           let item = data[i];
@@ -123,7 +74,7 @@ export default {
             })
           }
           this.historyList.push({
-            item: PItem,
+            historyItem: PItem,
             data: {
               name: item['name'],
               tag: item['tag'],
@@ -131,16 +82,24 @@ export default {
             }
           })
         }
-        console.log(this.historyList);
       })
       .catch((err) => {
         console.log(err);
       });
     },
     //这里是按下分享之后要执行的操作
-    onShare(item) {
-
-    }
+    onShare(id) {
+      console.log(id);
+      this.$axios.post('/api/pub/recommend', {
+        id: id,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
   },
 }
 </script>

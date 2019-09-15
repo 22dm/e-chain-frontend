@@ -3,11 +3,11 @@
     <h1>精选组合</h1>
     <router-view />
     <div v-for="(item,index) in shareList" :key="index" :style="{ padding: '20px' }">
-      <a-card :title="'组合-' + index" bordered :style="{ margin: '50 px'}">
-          <a-table :dataSource="item['shareItem']" :columns="columns" :pagination="false" rowKey="id"/>
+      <a-card :title="'组合-' + item.id" bordered :style="{ margin: '50 px'}">
+          <a-table :dataSource="item['item']" :columns="columns" :pagination="false" rowKey="code"/>
           <br>
           <span><b>20个交易日收益: {{item['income']}}</b></span>
-          <a-button style="float: right" type="primary" @click="onFollow(item)">一键跟单</a-button>
+          <a-button style="float: right" type="primary" @click="onFollow(item.item)">一键跟单</a-button>
       </a-card>
     </div>
   </a-layout-content>
@@ -24,48 +24,6 @@ const columns = [
 
 // 下面列出两条假数据作为参考，后端获取的数据传到前端，请参考以下格式
 const shareList = [];
-let shareItem = [];
-for (let i = 0; i < 5; i++) {
-  let type = (i%3 === 0)? '股票':'基金';
-  let price = 20 + 11*i;
-  let quantity = 500 * (5-i);
-  let priceNow = price + (i-2);
-  shareItem.push({
-    type: type,
-    name: `${type} ${i}`,
-    code: 10086 + i * 832 - 5,
-    price: price,
-    quantity: quantity,
-    id : `${i}`
-  });
-}
-shareList.push({
-  shareItem: shareItem,
-  id: 0,
-  income: 5000,
-  });
-
-shareItem = [];
-for (let i = 0; i < 5; i++) {
-  let type = (i%3-1 === 0)? '股票':'基金';
-  let price = 13 + 7*i;
-  let quantity = 400 * (5-i);
-  let priceNow = price + (i-1);
-  shareItem.push({
-    type: type,
-    name: `${type} ${i}`,
-    code: 27148 + i * 221 - 4,
-    price: price,
-    quantity: quantity,
-    id : `${i}`
-  });
-}
-
-shareList.push({
-  shareItem: shareItem,
-  id: 1,
-  income: 1300,
-  });
 
 export default {
   data() {
@@ -81,9 +39,29 @@ export default {
 
   methods: {
     getPage() {
-      this.$axios.get('/api/pub/getHistory')
+      this.$axios.get('/api/pub/getRecommend')
       .then((res) => {
-        console.log(response);
+        const shareList = res.data;
+        this.shareList = [];
+        for(let i=0;i<shareList.length;i++){
+          let items = shareList[i].items;
+          let shareItem = []
+          for (let j=0;j<items.length;j++){
+            let PItem = items[j];
+            shareItem.push({
+              type: PItem.type,
+              name: PItem.name,
+              code: PItem.code,
+              price: PItem.buy_price,
+              quantity: PItem.amount,
+            });
+          }
+          this.shareList.push({
+            item: shareItem,
+            id: shareList[i].name,
+          });
+          shareItem = [];
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -91,17 +69,14 @@ export default {
     },
     //这里是按下一键跟单之后要执行的操作。
     onFollow (item) {
-    //   axios.post('/api/pub/recommend', {
-    //   firstName: 'Fred',        // 参数 firstName
-    //   lastName: 'Flintstone'    // 参数 lastName
-    //   })
-    //   .then(function (response) {
-    //     console.log(response);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
-    // 
+      const codeList = [];
+      for (let i=0;i<item.length;i++) {
+        codeList.push(item[i].code);
+      }
+      this.$router.push({
+        path:'/investment/build', 
+        query: {"codeList": codeList},
+        })
     },
   },
 }

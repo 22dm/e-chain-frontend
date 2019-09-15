@@ -124,6 +124,7 @@ export default {
       .then((res) => {
         console.log(res);
         const data = res.data;
+        this.showList = [];
         for(let i=0;i<data.length;i++){
           const item = data[i]['items'];
           let showItem = [];

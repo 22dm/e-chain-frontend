@@ -138,20 +138,22 @@ export default {
   },
   mounted() {
     this.getPage();
-    this.getParam();
   },
   methods: {
     getPage() {
       // 获取后端数据item数据
       this.$axios.get("/api/pub/itemGetRecommend") 
       .then((res) => {
+        this.dataStock = [];
+        this.dataFund = [];
+        this.data = [];
         const dataFund = res.data.fund;
         const dataStock = res.data.stock;
         for (let i = 0; i < dataStock.length; i++) {
           this.dataStock.push({
             name: dataStock[i]['name'], 
-            code: dataStock[i]['code'],
-            price: dataStock[i]['price'],
+            code: dataStock[i]['code'], 
+            price: dataStock[i]['price'], 
           });
         }
         for (let i = 0; i < dataFund.length; i++) {
@@ -161,13 +163,14 @@ export default {
             price: dataFund[i]['price'],
           });
         }
+        const codeList = this.$route.query.codeList;
+        for (let i=0;i<codeList.length;i++) {
+        this.onAdd(codeList[i]);
+        }
       })
       .catch(function (err) {
         console.log(err);
       });
-    },
-    getParam() {
-      console.log(this.$route.query);
     },
     changeTotal() {
       const dataBlank = [...this.dataBlank];
@@ -221,6 +224,7 @@ export default {
       if (code.charAt(7) === 'S'){
         type = '股票';
         const dataStock = [...this.dataStock];
+        console.log(dataStock);
         target = dataStock.find(item => item.code === code);
         this.dataStock = dataStock.filter(item => item.code !== code);
       }
@@ -257,7 +261,11 @@ export default {
       "user_id": "16"
       })
       .then((res) => {
-        this.$router.push('/investment/history');
+        for(let i=0;i<data.length;i++) {
+          let code = data[i].code;
+          console.log(code);
+          this.onDelete(code);
+        }
       })
       .catch(function (error) {
         console.log(error);
