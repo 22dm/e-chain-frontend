@@ -32,14 +32,14 @@
       </div>
     </div>
     <a-card title="已选资产" :bordered="true" :style="{ margin: '50 px'}">
-      <a-table bordered :dataSource="data" :columns="columns" :pagination="false" rowKey="key" >
+      <a-table bordered :dataSource="data" :columns="columns" :pagination="false" rowKey="code" >
         <template slot="quantity" slot-scope="text, record">
-          <editable-cell @change="onCellChange(record.key, $event)"/>
+          <editable-cell @change="onCellChange(record.code, $event)"/>
         </template>
         <template slot="operation" slot-scope="text, record, ">
           <a-popconfirm
             title="Sure to delete?"
-            @confirm="onDelete(record.key)">
+            @confirm="onDelete(record.code)">
             <a-button type="danger">移除</a-button>
           </a-popconfirm>
         </template>
@@ -51,17 +51,17 @@
     </a-card>
     <br>
     <a-card title="A股推荐" :bordered="true" :style="{ margin: '50 px'} " >
-      <a-table :dataSource="dataStock" :columns="columnsStock" :pagination="false" rowKey="key" :scroll="{ y: 400 }">
+      <a-table :dataSource="dataStock" :columns="columnsStock" :pagination="false" rowKey="code" :scroll="{ y: 400 }">
         <template slot="operation" slot-scope="text, record">
-          <a-button type="primary" @click="onAdd(record.key)">加入</a-button>
+          <a-button type="primary" @click="onAdd(record.code)">加入</a-button>
         </template>
       </a-table>
     </a-card>
     <br>
     <a-card title="基金推荐" :bordered="true" :style="{ margin: '50 px'}">
-      <a-table :dataSource="dataFund" :columns="columnsFund" :pagination="false" rowKey="key" :scroll="{ y: 400 }">
+      <a-table :dataSource="dataFund" :columns="columnsFund" :pagination="false" rowKey="code" :scroll="{ y: 400 }">
         <template slot="operation" slot-scope="text, record">
-          <a-button type="primary" @click="onAdd(record.key)">加入</a-button>
+          <a-button type="primary" @click="onAdd(record.code)">加入</a-button>
         </template>
       </a-table>
     </a-card>
@@ -144,24 +144,20 @@ export default {
       // 获取后端数据item数据
       this.$axios.get("/api/pub/itemGetRecommend") 
       .then((res) => {
-        console.log(res);
-        console.log(res.data.stock.length);
         const dataFund = res.data.fund;
         const dataStock = res.data.stock;
-        for (let i = 0; i < res.data.stock.length; i++) {
+        for (let i = 0; i < dataStock.length; i++) {
           this.dataStock.push({
             name: dataStock[i]['name'], 
             code: dataStock[i]['code'],
             price: dataStock[i]['price'],
-            key: `s${i}`,
           });
         }
-        for (let i = 0; i < res.data.fund.length; i++) {
+        for (let i = 0; i < dataFund.length; i++) {
           this.dataFund.push({
             name: dataFund[i]['name'], 
             code: dataFund[i]['code'],
             price: dataFund[i]['price'],
-            key: `f${i}`,
           });
         }
       })
@@ -179,7 +175,7 @@ export default {
       let totalStock = 0;
       for(let i=0;i<data.length;i++) {
         totalPrice += data[i]['amount'];
-        if (data[i]['key'].charAt(0) === 's'){
+        if (data[i]['code'].charAt(7) === 'S'){
           totalStock += data[i]['amount'];
         }
       }
@@ -190,26 +186,26 @@ export default {
       target['fundR'] = `基金比例：${totalPrice===0?0:100-stockR} %`
       this.dataBlank = dataBlank;
     },
-    onCellChange (key, value) {
+    onCellChange (code, value) {
       const data = [...this.data];
-      const target = data.find(item => item.key === key);
+      const target = data.find(item => item.code === code);
       if (target) {
-        target['amount'] = value * target['price'];
+        target['amount'] = parseInt(value * target['price']);
+        target['quantity'] = parseInt(value);
         this.data = data;
       }
       this.changeTotal();
     },
-    onDelete (key) {
+    onDelete (code) {
       const data = [...this.data];
-      const target = data.find(item => item.key === key);
-      this.data = data.filter(item => item.key !== key);
+      const target = data.find(item => item.code === code);
+      this.data = data.filter(item => item.code !== code);
       const newData = {
-        key: key,
         name:  target.name,
         code: target.code,
         price: target.price,
       };
-      if (key.charAt(0) === 's') {
+      if (code.charAt(7) === 'S') {
         this.dataStock.push(newData);
       }
       else{
@@ -217,22 +213,22 @@ export default {
       }
       this.changeTotal();
     },
-    onAdd (key) {
-      let type = '股票';
+    onAdd (code) {
+      let type = '基金';
       let target;
-      if (key.charAt(0) === 'f'){
-        type = '基金';
-        const dataFund = [...this.dataFund];
-        target = dataFund.find(item => item.key === key);       
-        this.dataFund = dataFund.filter(item => item.key !== key);
+      if (code.charAt(7) === 'S'){
+        type = '股票';
+        const dataStock = [...this.dataStock];
+        target = dataStock.find(item => item.code === code);
+        this.dataStock = dataStock.filter(item => item.code !== code);
       }
       else{
-        const dataStock = [...this.dataStock];
-        target = dataStock.find(item => item.key === key);
-        this.dataStock = dataStock.filter(item => item.key !== key);
+        const dataFund = [...this.dataFund];
+        target = dataFund.find(item => item.code === code);       
+        this.dataFund = dataFund.filter(item => item.code !== code);
+
       }
       const newData = {
-        key: key,
         type: type,
         name: target.name,
         code: target.code,
@@ -241,23 +237,30 @@ export default {
         amount: 0,
       };
       this.data.push(newData);
-      this.onCellChange (key, 100);
+      this.onCellChange (code, 100);
     },
     onBuy () {
-    this.$axios.post('/api/pub/buy', {
-    item: [{
-      name: "农民",
-      price: 0.5,
-      amount: 1000}
-    ],
-    id: "16"
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+      const items = [];
+      const data = [...this.data];
+      for(let i=0;i<data.length;i++){
+        let item = data[i];
+        items.push({
+          name: item['name'],
+          price: item['price'],
+          amount: item['quantity'],
+        });
+      }
+      this.$axios.post('/api/pub/buy', {
+      "items": items,
+      "user_id": "赵云"
+      })
+      .then(function (response) {
+        console.log(response);
+        // this.$router.push('/investment/history')
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   },
 },
 
