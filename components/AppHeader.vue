@@ -1,10 +1,10 @@
 <template>
   <a-layout-header class="header">
-    <div class="logo"><img src="../static/img/logo.png" style="height:20px;width:50px;"> e-Chain</div>
+    <div class="logo"><img src="../static/img/logo.png" style="height:20px;width:35px;"> e-Chain</div>
     <a-menu
       theme="dark"
       mode="horizontal"
-      :defaultSelectedKeys="['0']"
+      :defaultSelectedKeys="['index']"
       :style="{ lineHeight: '64px' }"
     >
       <a-menu-item key="index">
@@ -19,6 +19,9 @@
       <a-menu-item key="investment">
         <router-link to="/investment/build">我的投资</router-link>
       </a-menu-item>
+      <a-menu-item key="login" style="float: right">
+        <router-link to="/login">登录</router-link>
+      </a-menu-item>
     </a-menu>
   </a-layout-header>
 </template>
@@ -27,7 +30,6 @@
 .logo {
   width: 120px;
   height: 31px;
-  background: rgba(255, 255, 255, 0.2);
   margin: 16px 24px 16px 0;
   float: left;
   text-align: center;
