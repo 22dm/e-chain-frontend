@@ -20,7 +20,7 @@
         <router-link to="/investment/build">我的投资</router-link>
       </a-menu-item>
       <a-menu-item key="login" style="float: right">
-        <router-link to="/login">登录</router-link>
+        <router-link to="/questionnaire">个人资料</router-link>
       </a-menu-item>
     </a-menu>
   </a-layout-header>

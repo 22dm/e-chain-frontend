@@ -385,9 +385,9 @@ export default {
         }
       ],
       chartSettings: {
-        showMA: true,
-        showVol: true,
-        showDataZoom: true,
+        showMA: false,
+        showVol: false,
+        showDataZoom: false,
         labelMap: {
           open: "开盘",
           close: "收盘",

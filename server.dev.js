@@ -28,7 +28,7 @@ const proxyTable = {
     // }
 };
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 80;
 var core = new LavasCore(__dirname);
 var app;
 var server;

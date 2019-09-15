@@ -23,8 +23,30 @@
         </keep-alive>
       </transition>
       <update-toast />
-      <a-layout-footer style="text-align: center">
-        这里有一堆没人会看的东西
+      <a-layout-footer class="footer" >
+        <div class="content">
+        <div >
+            <img src="../static/img/logo.png" style="height:40px;width:65px;margin:0px 0px 10px 7px">
+            <p id="brand">e-Chain</p>
+        </div>
+        <div class="div0">
+            <div class="div1">
+            <p>使用文档</p>
+            <a-divider />
+            <p>关于</p>
+            <p>用户手册</p>
+        </div>
+        <div class="div2">
+            <p>联系我们</p>
+            <a-divider />
+            <p>E-mail: 171098502@smail.nju.edu.cn</p>
+            <p>GitHub: https://github.com/22dm/e-chain-backend</p>
+            <p>GitHub: https://github.com/22dm/e-chain-frontend</p>
+        </div>
+        </div>
+        
+        </div>
+        <div >©2019 e-Chain</div>
       </a-layout-footer>
     </a-layout>
   </div>
@@ -155,3 +177,35 @@
         }
     };
 </script>
+<style scoped>
+#brand{
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+}
+.footer{
+    width: 100%;
+    height: 220px;
+    background-color: rgb(16, 74, 114);
+    color:white;
+    display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.footer .content{
+    display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+.footer .div0{
+     display: flex;
+  justify-content: center;
+  
+}
+.footer .div1,.footer .div2{
+    width: 370px;
+    margin: 0 20px;
+}
+</style>
