@@ -1,6 +1,6 @@
 <template>
   <a-layout-header class="header">
-    <div class="logo">我是 LOGO</div>
+    <div class="logo"><img src="../static/img/logo.png" style="height:20px;width:50px;"> e-Chain</div>
     <a-menu
       theme="dark"
       mode="horizontal"
