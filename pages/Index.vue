@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="title" :style="style ">
-      <p class="name">e-Chain 产业链投顾平台</p>
+      <p class="name">e-Chain 产业链投顾系统</p>
       <p class="team">NJU GO团队</p>
     </div>
     <div class="mainFunction">
@@ -39,6 +39,13 @@
       </div>
       <div class="memberBox">
         <div class="groupBox">
+          <div class="groupName">队长</div>
+          <div class="avatarBox" >
+            <img class="avatar" :src="'../static/img/avatar/'+'马煜'+'.jpg'"/>
+            <p>马煜</p>
+          </div>
+        </div>
+        <div class="groupBox">
           <div class="groupName">商业组</div>
           <div class="avatarBox" v-for="(item,index) in business" :key="index">
             <img class="avatar" :src="'../static/img/avatar/'+item+'.jpg'"/>
@@ -46,14 +53,14 @@
           </div>
         </div>
         <div class="groupBox">
-          <div class="groupName">算法组</div>
+          <div class="groupName">开发组</div>
           <div class="avatarBox" v-for="(item,index) in develop" :key="index">
             <img class="avatar" :src="'../static/img/avatar/'+item+'.jpg'"/>
             <p>{{item}}</p>
           </div>
         </div>
         <div class="groupBox">
-          <div class="groupName">开发组</div>
+          <div class="groupName">算法组</div>
           <div class="avatarBox" v-for="(item,index) in algorithm " :key="index">
             <img class="avatar" :src="'../static/img/avatar/'+item+'.jpg'"/>
             <p>{{item}}</p>
@@ -70,7 +77,7 @@ export default {
       style: {
         backgroundImage: "url(" + require("../static/img/Background.png") + ")"
       },
-      business: ["周佳多","施又琛","马煜","卢非池","刘天悦","李培生","李安祺","季春晖","陈智颖","陈源珊"],
+      business: ["周佳多","施又琛","卢非池","刘天悦","李培生","李安祺","季春晖","陈智颖","陈源珊"],
       algorithm: ["季镇澜","韦皓文","陆天淳","马小堤","荆龙刚","马少聪","李瑶函","黄开乐","杜宗财"],
       develop: ["刘洪禹","石轶凡","薛景文","徐志乐","石创烽","戴羽涵","常卓","陈安琪","张寅飞"]
     };
@@ -78,6 +85,9 @@ export default {
 };
 </script>
 <style scoped>
+.avatarBox p{
+  text-align: center;
+}
 .groupName{
     font-size: 20px;;
     font-weight: bold;
@@ -92,7 +102,7 @@ export default {
 }
 .memberBox {
   width: 940px;
-  height: 300px;
+  height: 400px;
   background-color: white;
   margin: 10px;
   
@@ -117,7 +127,7 @@ export default {
 }
 .member {
   width: 90%;
-  height: 400px;
+  height: 480px;
   margin: 0px auto;
 
   display: flex;
@@ -128,13 +138,16 @@ export default {
 .icon {
   width: 50px;
   height: 50px;
+  margin-top: 15px;
 }
 .avatar{
     width: 50px;
   height: 50px;
+  border-radius: 5px;
 }
 .functionDescription {
   font-size: 18px;
+  width: 250px;
 }
 .functionBox {
   display: flex;
@@ -142,7 +155,7 @@ export default {
 }
 .function {
   width: 300px;
-  height: 300px;
+  height: 350px;
   background-color: white;
   margin: 10px;
   display: flex;
@@ -175,6 +188,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 15px;
 }
 .name {
   color: white;
