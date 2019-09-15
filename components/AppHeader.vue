@@ -4,7 +4,7 @@
     <a-menu
       theme="dark"
       mode="horizontal"
-      :defaultSelectedKeys="['0']"
+      :defaultSelectedKeys="['index']"
       :style="{ lineHeight: '64px' }"
     >
       <a-menu-item key="index">
@@ -18,6 +18,9 @@
       </a-menu-item>
       <a-menu-item key="investment">
         <router-link to="/investment/build">我的投资</router-link>
+      </a-menu-item>
+      <a-menu-item key="login" style="float: right">
+        <router-link to="/login">登录</router-link>
       </a-menu-item>
     </a-menu>
   </a-layout-header>

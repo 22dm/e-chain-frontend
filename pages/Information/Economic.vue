@@ -10,9 +10,9 @@
     <router-view />
     <a-list-item slot="renderItem" slot-scope="item" key="item.title">
       <a-list-item-meta>
-        <a slot="title" :href="item.href">{{ item.title }}</a>
+        <a slot="title" :href="item.url">{{ item.title }}</a>
       </a-list-item-meta>
-      {{ item.content }}
+      {{ item.text }}
       <span slot="actions" v-if="item.time">
         <a-icon type="clock-circle" style="margin-right: 0.5em" />
         {{ item.time }}
@@ -49,19 +49,19 @@ export default {
       let pageNum = pagination ? pagination : 1;
       let data = [];
 
-      for (let i = (pageNum - 1) * 3 + 1; i < pageNum * 3 + 1; i++) {
-        data.push({
-          href: "https://vue.ant.design/",
-          title: `我是宏观经济 ${i}`,
-          content:
-            "我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济我是宏观经济",
-          source: "我是来源",
-          time: `2019年4月3日 ${i}:00`,
+      this.$axios
+        .get("/api/pub/getEconomic?num=10&page=" + (pageNum - 1))
+        .then(res => {
+          for (let item of res.data) {
+            item.text = item.text.substr(0, 200);
+            item.time = item.time.substr(0, 11);
+          }
+          this.listData = res.data;
+          this.loading = false;
+        })
+        .catch(function(err) {
+          console.log(err);
         });
-      }
-
-      this.listData = data;
-      this.loading = false;
     }
   }
 };
