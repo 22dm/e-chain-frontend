@@ -12,7 +12,7 @@
       <a-list-item-meta>
         <a slot="title" :href="item.href">{{ item.title }}</a>
       </a-list-item-meta>
-      {{ item.content }}
+      {{ item.text }}
       <span slot="actions" v-if="item.time">
         <a-icon type="clock-circle" style="margin-right: 0.5em" />
         {{ item.time }}
@@ -43,19 +43,20 @@ export default {
       console.log(pagination);
       this.loading = true;
       let pageNum = pagination ? pagination : 1;
-      let data = [];
 
-      for (let i = (pageNum - 1) * 3 + 1; i < pageNum * 3 + 1; i++) {
-        data.push({
-          href: "https://vue.ant.design/",
-          title: `我是行业公告 ${i}`,
-          content:
-            "我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告我是行业公告",
-          time: `2019年4月3日 ${i}:00`,
-        });
-      }
-      this.listData = data;
-      this.loading = false;
+      this.$axios.get("/api/pub/getAnnouncement?num=10&page=" + (pageNum - 1)) 
+      .then((res) => {
+        for(let item of res.data){
+          item.title = "【" + item.name + "】" + item.title;
+          item.text = item.text.substr(0, 200);
+          item.time = item.time.substr(0, 4) + '年' + item.time.substr(4, 2) + '月' + item.time.substr(6) + '日';
+        }
+        this.listData = res.data;
+        this.loading = false;
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
     }
   }
 };
