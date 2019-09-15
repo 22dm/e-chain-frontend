@@ -183,7 +183,7 @@ export default {
 .title {
   width: 100%;
   height: 400px;
-  background-size: 100% 100%;
+  background-size: 100% auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
