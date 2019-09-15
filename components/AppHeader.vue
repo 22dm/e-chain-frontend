@@ -1,6 +1,6 @@
 <template>
   <a-layout-header class="header">
-    <div class="logo"><img src="../static/img/logo.png" style="height:20px;width:50px;"> e-Chain</div>
+    <div class="logo"><img src="../static/img/logo.png" style="height:20px;width:35px;"> e-Chain</div>
     <a-menu
       theme="dark"
       mode="horizontal"
@@ -30,7 +30,6 @@
 .logo {
   width: 120px;
   height: 31px;
-  background: rgba(255, 255, 255, 0.2);
   margin: 16px 24px 16px 0;
   float: left;
   text-align: center;
