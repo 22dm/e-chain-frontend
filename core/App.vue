@@ -26,7 +26,7 @@
       <a-layout-footer class="footer" >
         <div class="content">
         <div >
-            <img src="../static/img/logo.png" style="height:40px;width:70px;">
+            <img src="../static/img/logo.png" style="height:40px;width:65px;margin:0px 0px 10px 7px">
             <p id="brand">e-Chain</p>
         </div>
         <div class="div0">
@@ -39,9 +39,9 @@
         <div class="div2">
             <p>联系我们</p>
             <a-divider />
-            <p>QQ: 1125182919</p>
             <p>E-mail: 171098502@smail.nju.edu.cn</p>
-            <p>GitHub: https://github.com/22dm/e-chain-citi</p>
+            <p>GitHub: https://github.com/22dm/e-chain-backend</p>
+            <p>GitHub: https://github.com/22dm/e-chain-frontend</p>
         </div>
         </div>
         
