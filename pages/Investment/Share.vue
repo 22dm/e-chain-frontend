@@ -74,11 +74,35 @@ export default {
       columns,
     }
   },
+
+  mounted() {
+    this.getPage();
+  },
+
   methods: {
+    getPage() {
+      this.$axios.get('/api/pub/getHistory')
+      .then((res) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    },
     //这里是按下一键跟单之后要执行的操作。
     onFollow (item) {
-
-    }
+    //   axios.post('/api/pub/recommend', {
+    //   firstName: 'Fred',        // 参数 firstName
+    //   lastName: 'Flintstone'    // 参数 lastName
+    //   })
+    //   .then(function (response) {
+    //     console.log(response);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+    // 
+    },
   },
 }
 </script>

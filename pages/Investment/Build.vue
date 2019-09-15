@@ -138,6 +138,7 @@ export default {
   },
   mounted() {
     this.getPage();
+    this.getParam();
   },
   methods: {
     getPage() {
@@ -164,8 +165,9 @@ export default {
       .catch(function (err) {
         console.log(err);
       });
-
-
+    },
+    getParam() {
+      console.log(this.$route.query);
     },
     changeTotal() {
       const dataBlank = [...this.dataBlank];
@@ -252,11 +254,10 @@ export default {
       }
       this.$axios.post('/api/pub/buy', {
       "items": items,
-      "user_id": "赵云"
+      "user_id": "16"
       })
-      .then(function (response) {
-        console.log(response);
-        // this.$router.push('/investment/history')
+      .then((res) => {
+        this.$router.push('/investment/history');
       })
       .catch(function (error) {
         console.log(error);
